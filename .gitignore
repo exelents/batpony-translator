@@ -1,0 +1,5 @@
+.env
+.env.test
+.env.magickplace
+*.ipynb
+add-bot-url.txt

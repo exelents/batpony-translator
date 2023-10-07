@@ -1,0 +1,6 @@
+transformers
+torch
+python-dotenv
+# discord.py
+# discord-py-slash-command
+discord-py-interactions
