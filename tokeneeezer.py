@@ -2,7 +2,7 @@ from transformers import GPT2Tokenizer, AutoTokenizer
 import re
 
 
-class GPT2TokeeenizerWrapper:
+class Tokeeenizer:
     def __init__(self, model_name='DeepPavlov/rubert-base-cased', e_char='E'):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.e_char = e_char
@@ -25,15 +25,24 @@ class GPT2TokeeenizerWrapper:
         return number
 
     def encode_text(self, text):
-        tokens = self.tokenize(text)
-        return ' '.join([self.number_to_string(token) for token in tokens])
+        paragraphs = text.split("\n")
+        tokens_paragraphs = [self.tokenize(text) for text in paragraphs]
+        return '\n'.join([
+            ' '.join([self.number_to_string(token) for token in tokens])
+            for tokens in tokens_paragraphs
+            ])
 
     def decode_text(self, encoded_text):
         # Проверка на наличие недопустимых символов
-        if not re.match(f"^[{self.e_char}\- ]*$", encoded_text):
+        if not re.match(f"^[{self.e_char}\- \n]*$", encoded_text):
             raise ValueError("Encoded text contains invalid characters")
         
-        token_strings = encoded_text.split(' ')
-        tokens = [self.string_to_number(token_string) for token_string in token_strings]
-        return self.detokenize(tokens)
+        paragraphs = encoded_text.split('\n')
+        paragraphs = [paragraph.split(' ') for paragraph in paragraphs]
+        tokens_paragraphs = [
+            [self.string_to_number(token_string) for token_string in tokens_strings if token_string]
+            for tokens_strings in paragraphs
+            ]
+        
+        return "\n".join([self.detokenize(tokens) for tokens in tokens_paragraphs])
         

@@ -6,8 +6,8 @@ from dotenv import load_dotenv, find_dotenv
 # find the .env file and load it 
 load_dotenv(find_dotenv())
 
-from tokeneeezer import GPT2TokeeenizerWrapper
-my_tokenizer = GPT2TokeeenizerWrapper()
+from tokeneeezer import Tokeeenizer
+my_tokenizer = Tokeeenizer()
 import interactions
 from interactions import MISSING
 
@@ -75,7 +75,7 @@ async def decode(ctx: interactions.CommandContext, text: str):
 async def translate(ctx: interactions.CommandContext, text: str):
     try:
         # Проверка, следует ли декодировать текст
-        if re.match(f"^[{my_tokenizer.e_char}\- ]*$", text):
+        if re.match(f"^[{my_tokenizer.e_char}\- \n]*$", text):
             decoded_text = my_tokenizer.decode_text(text)
             await ctx.send(f"Decoded text:\n\n{decoded_text}", ephemeral=True)
         else:
