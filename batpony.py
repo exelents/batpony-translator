@@ -9,6 +9,7 @@ load_dotenv(find_dotenv())
 from tokeneeezer import GPT2TokeeenizerWrapper
 my_tokenizer = GPT2TokeeenizerWrapper()
 import interactions
+from interactions import MISSING
 
 the_id_of_your_guild = int(os.getenv('DISCORD_GUILD_ID'))
 print(f"the_id_of_your_guild = {the_id_of_your_guild}")
@@ -31,7 +32,8 @@ bot = interactions.Client(token=os.getenv('DISCORD_BOT_TOKEN'))
 async def encode(ctx: interactions.CommandContext, text: str):
     try:
         encoded_text = my_tokenizer.encode_text(text)
-        await ctx.send(f"Original text:\n{text}\n\nEncoded text:\n{encoded_text}", ephemeral=True)  
+        await ctx.send(f"Original text:\n{text}\n\nEncoded text:\n", ephemeral=True)
+        await ctx.send(encoded_text, ephemeral=True)
     except Exception as e:
         await ctx.send(f"An error occurred: {str(e)}", ephemeral=True)
 
@@ -78,7 +80,8 @@ async def translate(ctx: interactions.CommandContext, text: str):
             await ctx.send(f"Decoded text:\n\n{decoded_text}", ephemeral=True)
         else:
             encoded_text = my_tokenizer.encode_text(text)
-            await ctx.send(f"Original text:\n{text}\n\nEncoded text:\n{encoded_text}", ephemeral=True)
+            await ctx.send(f"Original text:\n{text}\n\nEncoded text:\n", ephemeral=True)
+            await ctx.send(encoded_text, ephemeral=True)
     except Exception as e:
         await ctx.send(f"An error occurred: {str(e)}", ephemeral=True)
 
