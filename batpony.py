@@ -11,7 +11,7 @@ my_tokenizer = Tokeeenizer()
 import interactions
 from interactions import MISSING
 
-the_id_of_your_guild = int(os.getenv('DISCORD_GUILD_ID'))
+the_id_of_your_guild = [int(x) for x in os.getenv('DISCORD_GUILD_ID').split(",")]
 print(f"the_id_of_your_guild = {the_id_of_your_guild}")
 print(f"TOKEN = {os.getenv('DISCORD_BOT_TOKEN')}")
 bot = interactions.Client(token=os.getenv('DISCORD_BOT_TOKEN'))
